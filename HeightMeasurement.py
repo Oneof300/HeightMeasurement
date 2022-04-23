@@ -41,9 +41,7 @@ def drawMeasurementLine(img, pt1, pt2, value):
   cv.putText(img = img, text = "{0}{1}".format(value, unit), org = (xMax + 25, (pt1[1] + pt2[1]) // 2), fontFace = fontFace,
     fontScale = fontScale, color = drawColor, thickness = drawThickness)
 
-def refineCalculatedSize(size, imgPts):
-  return 9.2
-
+# calculate mug size for every image
 for imageFilename in imageFilenames:
   currentImg = cv.resize(src = cv.imread(filename = imageFilename), dsize = (0, 0), fx = 0.5, fy = 0.5)
   currentImgPts = np.empty(shape = (12, 2), dtype = np.float32)
@@ -52,14 +50,17 @@ for imageFilename in imageFilenames:
   def hndMouse(event, x, y, flags, userData):
     global currentImg, currentImgPts, currentImgPtsCount
     if event == cv.EVENT_LBUTTONDOWN and currentImgPtsCount < len(currentImgPts):
+      # on click add new image point and visualize it
       currentImgPts[currentImgPtsCount] = np.array([x, y])
       currentImgPtsCount += 1
       cv.circle(img = currentImg, center = (x, y), radius = 5, color = (0, 0, 255), thickness = -1)
 
       if currentImgPtsCount == 4:
+        # index 0-3 := table corners, index 4-5 := vanishing points
         currentImgPts[currentImgPtsCount] = calculateVanishingPoint(*currentImgPts[:4])
         currentImgPts[currentImgPtsCount + 1] = calculateVanishingPoint(*currentImgPts[[0, 2, 1, 3]])
         currentImgPtsCount += 2
+        # draw lines towards vanishing points and vanishing line
         drawLine(currentImg, *currentImgPts[[0, 4]])
         drawLine(currentImg, *currentImgPts[[2, 4]])
         drawLine(currentImg, *currentImgPts[[0, 5]])
@@ -67,18 +68,20 @@ for imageFilename in imageFilenames:
         drawLine(currentImg, *currentImgPts[[4, 5]])
 
       if currentImgPtsCount == 8:
+        # index 6 := bottle bottom, index 7 := bottle top
         drawMeasurementLine(currentImg, *currentImgPts[[6, 7]], value = givenSize)
 
       if currentImgPtsCount == 10:
+        # index 8 := mug bottom, index 9 := mug top, index 10 := new vanishing point, index 11 := t
         currentImgPts[currentImgPtsCount] = calculateIntersection(*currentImgPts[[4, 5, 6, 8]])
         currentImgPts[currentImgPtsCount + 1] = calculateIntersection(*currentImgPts[[6, 7, 9, 10]])
         currentImgPtsCount += 2
-        # index t = 11, index b = 6, index r = 7
+        # index 11 := t, index 6 := b, index 7 := r
         imageCrossRatio = (
           np.linalg.norm(currentImgPts[11] - currentImgPts[6]) *
           np.linalg.norm(np.array([0, 1]) - currentImgPts[7])
         ) / (
-          np.linalg.norm(currentImgPts[7] - currentImgPts[6]) * # 26 cm
+          np.linalg.norm(currentImgPts[7] - currentImgPts[6]) *
           np.linalg.norm(np.array([0, 1]) - currentImgPts[11])
         )
         calculatedSize = givenSize * imageCrossRatio
@@ -98,5 +101,6 @@ for imageFilename in imageFilenames:
     # next image
     if key == ord("n"):
       break
-  
+
+# print average of all calculated mug sizes
 print(np.sum(calculatedSizes) / len(calculatedSizes))
