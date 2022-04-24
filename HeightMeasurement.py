@@ -41,6 +41,53 @@ def drawMeasurementLine(img, pt1, pt2, value):
   cv.putText(img = img, text = "{0}{1}".format(value, unit), org = (xMax + 25, (pt1[1] + pt2[1]) // 2), fontFace = fontFace,
     fontScale = fontScale, color = drawColor, thickness = drawThickness)
 
+def convertPnt(pt):
+  return (pt[0], pt[1])
+
+def fitImage(img, currentImgPts):
+  height, width, _ = img.shape
+  vanishingPts = [convertPnt(currentImgPts[4]), convertPnt(currentImgPts[5])]
+  cornerPts = [convertPnt(currentImgPts[0]), convertPnt(currentImgPts[1]), convertPnt(currentImgPts[2]), convertPnt(currentImgPts[3])]
+
+  new_min_x = round(min(min(vanishingPts)[0], 0))
+  new_max_x = round(max(max(vanishingPts)[0], width))
+  new_min_y = round(min(min(vanishingPts, key=lambda x: x[1])[1], 0))
+  new_max_y = round(max(max(vanishingPts, key=lambda x: x[1])[1], height))
+
+  border = 50
+  new_width = new_max_x - new_min_x + (border * 2)
+  temp_height = new_max_y - new_min_y + (border * 2)
+
+  ratio = new_width/width
+  new_height = round(height * ratio)
+
+  if new_height < temp_height:
+    ratio = new_height/height
+    new_width = round(width * ratio)
+    new_height = temp_height
+
+  new_image = np.zeros((new_height, new_width, 3), np.uint8)
+  origin = (abs(new_min_x) + border, abs(new_min_y) + border)
+  new_image[origin[1] : origin[1] + height, origin[0] : origin[0] + width, :] = img
+        
+  vanishingPt1 =  (round(vanishingPts[0][0] + origin[0]), round(vanishingPts[0][1] + origin[1]))
+  vanishingPt2 =  (round(vanishingPts[1][0] + origin[0]), round(vanishingPts[1][1] + origin[1]))
+  
+  cv.line(img = new_image, pt1 = vanishingPt1, pt2 = vanishingPt2, color = drawColor, thickness = drawThickness)
+  cv.circle(img = new_image, center = vanishingPt1, radius = 5, color = (0, 0, 255), thickness = -1)
+  cv.circle(img = new_image, center = vanishingPt2, radius = 5, color = (0, 0, 255), thickness = -1)
+
+  for index in range(4):
+    cornerPts[index] = ((round(cornerPts[index][0] + origin[0]), round(cornerPts[index][1] + origin[1])))
+
+  cv.line(img = new_image, pt1 = cornerPts[0], pt2 = vanishingPt1, color = drawColor, thickness = drawThickness)
+  cv.line(img = new_image, pt1 = cornerPts[2], pt2 = vanishingPt1, color = drawColor, thickness = drawThickness)
+  cv.line(img = new_image, pt1 = cornerPts[0], pt2 = vanishingPt2, color = drawColor, thickness = drawThickness)  
+  cv.line(img = new_image, pt1 = cornerPts[1], pt2 = vanishingPt2, color = drawColor, thickness = drawThickness)
+
+  currentImg = cv.resize(src = new_image, dsize = (0, 0), fx = 0.5, fy = 0.5)
+  return currentImg
+
 # calculate mug size for every image
 for imageFilename in imageFilenames:
   currentImg = cv.resize(src = cv.imread(filename = imageFilename), dsize = (0, 0), fx = 0.5, fy = 0.5)
@@ -87,6 +134,9 @@ for imageFilename in imageFilenames:
         calculatedSize = givenSize * imageCrossRatio
         drawMeasurementLine(currentImg, *currentImgPts[[8, 9]], value = calculatedSize)
         calculatedSizes.append(calculatedSize)
+
+        # resize image to display vanising points & vanishing line       
+        currentImg = fitImage(currentImg, currentImgPts)
 
       cv.imshow(winname = "Image Point Selection", mat = currentImg)
 
