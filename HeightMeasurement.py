@@ -21,7 +21,7 @@ winname = "Height Measurement"
 cv.namedWindow(winname, cv.WINDOW_AUTOSIZE)
 
 
-def calculateVanishingPoint(pt1, pt2, pt3, pt4):
+def calculateIntersection(pt1, pt2, pt3, pt4):
     cross1 = np.cross(a=np.array([pt1[0], pt1[1], 1]),
                       b=np.array([pt2[0], pt2[1], 1]))
     cross2 = np.cross(a=np.array([pt3[0], pt3[1], 1]),
@@ -29,15 +29,6 @@ def calculateVanishingPoint(pt1, pt2, pt3, pt4):
     cross3 = np.cross(a=cross1, b=cross2)
     cross3 = cross3 / cross3[2]
     return cross3[:2]
-
-
-def calculateIntersection(pt1, pt2, pt3, pt4):
-    # solving pt1 + s1(pt1 - pt2) = pt3 + s2(pt3 - pt4)
-    coefficientMatrix = np.stack((pt1 - pt2, -(pt3 - pt4)), axis=1)
-    ordinateValues = pt3 - pt1
-    s = np.linalg.solve(coefficientMatrix, ordinateValues)
-    return pt1 + s[0] * (pt1 - pt2)
-
 
 def drawPoint(img, center, label):
     cv.circle(img, center=center, radius=pointRadius,
@@ -129,10 +120,10 @@ for imageFilename in imgFilenames:
 
             if currentImgPtsCount == 4:
                 # index 0-3 := table corners, index 4-5 := vanishing points
-                currentImgPts[currentImgPtsCount] = calculateVanishingPoint(
+                currentImgPts[currentImgPtsCount] = calculateIntersection(
                     *currentImgPts[:4])
                 currentImgPts[currentImgPtsCount +
-                              1] = calculateVanishingPoint(*currentImgPts[[0, 2, 1, 3]])
+                              1] = calculateIntersection(*currentImgPts[[0, 2, 1, 3]])
                 currentImgPtsCount += 2
                 # draw lines towards vanishing points and vanishing line
                 drawLine(currentImg, *currentImgPts[[0, 4]])
@@ -147,14 +138,14 @@ for imageFilename in imgFilenames:
                     currentImg, *currentImgPts[[6, 7]], value=givenSize)
 
             if currentImgPtsCount == 10:
-                # i 8 := mug bottom, i 9 := mug top, i 10 := new vanishing point, i 11 := t
+                # index 8 := mug bottom, index 9 := mug top, index 10 := new vanishing point, index 11 := t
                 currentImgPts[currentImgPtsCount] = calculateIntersection(
                     *currentImgPts[[4, 5, 6, 8]])
                 currentImgPts[currentImgPtsCount +
                               1] = calculateIntersection(*currentImgPts[[6, 7, 9, 10]])
                 currentImgPtsCount += 2
-                # i 11 := t, i 6 := b, i 7 := r
-                vz = calculateVanishingPoint(*currentImgPts[[6, 7, 8, 9]])
+                # index 11 := t, index 6 := b, index 7 := r
+                vz = calculateIntersection(*currentImgPts[[6, 7, 8, 9]])
                 imageCrossRatio = (
                     np.linalg.norm(currentImgPts[11] - currentImgPts[6]) *
                     np.linalg.norm(vz - currentImgPts[7])
