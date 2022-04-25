@@ -17,10 +17,10 @@
 [Zum Programm "HeightMeasurement"](HeightMeasurement.py)
 
 Zunächst müssen die vier Eckpunkte bzw. Kanten des Tischs durch einen Klick der linken Maustaste ausgewählt werden. Idealerweise wird dabei wie folgt vorgegangen: 
--	Auswahl der linken vorderen Ecke
--	Auswahl der linken hinteren Ecke
 -	Auswahl der rechten vorderen Ecke
 -	Auswahl der rechten hinteren Ecke
+-	Auswahl der linken vorderen Ecke
+-	Auswahl der linken hinteren Ecke
 
 Anschließend werden anhand dieser Punkte zwei entsprechende Fluchtpunkte und aus diesen wiederum die horizontale Fluchtlinie berechnet. Mit Abschließen dieser Berechnung werden auf der Benutzeroberfläche die entsprechenden vier geraden eingezeichnet - diese stellen die Fluchtlinien dar, von welchen sich immer zwei in jeweils einem Fluchtpunkt schneiden.
 
