@@ -16,7 +16,7 @@
 # Anleitung zur Nutzung des Programms 
 [Zum Programm "HeightMeasurement"](HeightMeasurement.py)
 
-Zunächst müssen die vier Eckpunkte bzw. Kanten des Tischs durch einen Klick der linken Maustaste ausgewählt werden. Idealerweise wird dabei wie folgt vorgegangen: 
+Zunächst müssen vier Eckpunkte eines Prallelogramms bzw. des Tisches durch einen Klick der linken Maustaste ausgewählt werden. Idealerweise wird dabei wie folgt vorgegangen: 
 -	Auswahl der rechten vorderen Ecke
 -	Auswahl der rechten hinteren Ecke
 -	Auswahl der linken vorderen Ecke
@@ -24,8 +24,8 @@ Zunächst müssen die vier Eckpunkte bzw. Kanten des Tischs durch einen Klick de
 
 Anschließend werden anhand dieser Punkte zwei entsprechende Fluchtpunkte und aus diesen wiederum die horizontale Fluchtlinie berechnet. Mit Abschließen dieser Berechnung werden auf der Benutzeroberfläche die entsprechenden vier geraden eingezeichnet - diese stellen die Fluchtlinien dar, von welchen sich immer zwei in jeweils einem Fluchtpunkt schneiden.
 
-Daraufhin muss der Nutzer zunächst die Höhe der Flasche auf dem Tisch kennzeichnen. Dabei wird per Mausklick ein Punkt in der Boden- und ein weiterer Punkt in der Deckelebene gesetzt. Ebenso wird dann auch bei der Tasse verfahren, so dass auch hier zwei Punkte die Höhe der Tasse markieren.
-Die Höhe der Tasse ist mit 26cm gegeben und anhand dieser wird anschließend die Höhe der Tasse mit Hilfe eines neu berechneten Fluchtpunkts "v" ermittelt.
+Daraufhin muss der Nutzer zunächst das untere und obere Ende der Flasche kennzeichnen. Dabei wird per Mausklick ein Punkt in der Boden- und ein weiterer Punkt in der Deckelebene gesetzt. Ebenso wird dann auch bei der Tasse verfahren, so dass auch hier zwei Punkte die Höhe der Tasse markieren.
+Die Höhe der Flasche ist mit 26cm gegeben und anhand dieser wird anschließend die Höhe der Tasse mit Hilfe eines neu berechneten Fluchtpunkts "v" ermittelt.
 
 Nun wird die Größe des Bildes den Fluchtpunkten entsprechend größer gerechnet, so dass diese, wie auch die horizontale Fluchtlinie im Bild angezeigt werden können. Hier wird das ursprüngliche Bild relativ zu den Fluchtpunkten und mit Berücksichtigung der Seitenverhältnisse im neuen Bild platziert.
 
