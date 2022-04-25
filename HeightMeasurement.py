@@ -107,7 +107,7 @@ def fitImage(img, imgPts):
     img = np.zeros(img.shape, np.uint8)
     newHeightResized, newWidthResized, _ = newImgResized.shape
     offset = ((width - newWidthResized) // 2, (height - newHeightResized) // 2)
-    img[offset[1]:offset[1] + newHeightResized, offset[0]        :offset[0] + newWidthResized, :] = newImgResized
+    img[offset[1]:offset[1] + newHeightResized, offset[0]:offset[0] + newWidthResized, :] = newImgResized
     return img
 
 
@@ -128,7 +128,7 @@ for imageFilename in imgFilenames:
             currentImgPtsCount += 1
 
             if currentImgPtsCount == 4:
-                # i 0-3 := table corners, i 4-5 := vanishing points
+                # index 0-3 := table corners, index 4-5 := vanishing points
                 currentImgPts[currentImgPtsCount] = calculateVanishingPoint(
                     *currentImgPts[:4])
                 currentImgPts[currentImgPtsCount +
@@ -142,7 +142,7 @@ for imageFilename in imgFilenames:
                 drawLine(currentImg, *currentImgPts[[4, 5]])
 
             if currentImgPtsCount == 8:
-                # i 6 := bottle bottom, i 7 := bottle top
+                # index 6 := bottle bottom, index 7 := bottle top
                 drawMeasurementLine(
                     currentImg, *currentImgPts[[6, 7]], value=givenSize)
 
@@ -154,12 +154,13 @@ for imageFilename in imgFilenames:
                               1] = calculateIntersection(*currentImgPts[[6, 7, 9, 10]])
                 currentImgPtsCount += 2
                 # i 11 := t, i 6 := b, i 7 := r
+                vz = calculateVanishingPoint(*currentImgPts[[6, 7, 8, 9]])
                 imageCrossRatio = (
                     np.linalg.norm(currentImgPts[11] - currentImgPts[6]) *
-                    np.linalg.norm(np.array([0, 1]) - currentImgPts[7])
+                    np.linalg.norm(vz - currentImgPts[7])
                 ) / (
                     np.linalg.norm(currentImgPts[7] - currentImgPts[6]) *
-                    np.linalg.norm(np.array([0, 1]) - currentImgPts[11])
+                    np.linalg.norm(vz - currentImgPts[11])
                 )
                 calculatedSize = givenSize * imageCrossRatio
                 drawMeasurementLine(
