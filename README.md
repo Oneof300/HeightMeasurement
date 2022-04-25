@@ -8,7 +8,9 @@
       <a href="#anleitung-zur-nutzung-des-programms">Anleitung zur Nutzung des Programms</a>
     </li>
     <li>
-        <a href="#schlüssel-zu-den-indizes-des-arrays-currentimgpts">Schlüssel zu den Indizes des Arrays currentImgPts</a></li>
+        <a href="#schlüssel-zu-den-indizes-des-arrays-currentimgpts">Schlüssel zu den Indizes des Arrays currentImgPts</a>
+    </li>
+    <li><a href="#referenzen">Referenzen</a></li>
     <li><a href="#verwendete-module">Verwendete Module</a></li>
   </ol>
 </details>
@@ -34,6 +36,8 @@ Durch die N-Taste kann zum nächsten Bild navigiert werden. Hier kann nun dersel
 So soll ein möglichst genaues Ergebnis ermittelt werden. Hier gilt zu beachten, dass die Genauigkeit der Berechnung jedoch von der exakten Positionierung aller, zur Berechnung benötigter, Punkte abhängig ist. Anschließend wird das Programm automatisch beendet.
 Mit der Q-Taste kann das Programm vorzeitig beendet werden.
 
+Das [Programm "test.ipynb"](test.ipynb) beinhaltet einen ersten Ansatz zur automatischen Erkennung der Fluchtlinien in einem Bild.
+
 
 # Schlüssel zu den Indizes des Arrays currentImgPts
 |Index  |Mathematische Bezeichnung  |
@@ -51,10 +55,11 @@ Mit der Q-Taste kann das Programm vorzeitig beendet werden.
 
 
 # Referenzen
-
+[Hough Line Transform](https://docs.opencv.org/3.4/d9/db0/tutorial_hough_lines.html) zur automatischen Erfassung von Linien in einem Bild.
 
 # Verwendete Module
 |Modul          |Version    |
 |---------------|-----------|
 |numpy          |1.22.3     |
 |opencv-python  |4.5.5.64   |
+|Jupyter        |v2022.3.1000901801|
