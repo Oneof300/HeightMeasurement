@@ -16,24 +16,23 @@
 # Anleitung zur Nutzung des Programms 
 [Zum Programm "HeightMeasurement"](HeightMeasurement.py)
 
-Zunächst müssen vier Eckpunkte eines Prallelogramms bzw. des Tisches durch einen Klick der linken Maustaste ausgewählt werden. Idealerweise wird dabei wie folgt vorgegangen: 
--	Auswahl der rechten vorderen Ecke
--	Auswahl der rechten hinteren Ecke
--	Auswahl der linken vorderen Ecke
--	Auswahl der linken hinteren Ecke
+Zunächst müssen vier Eckpunkte eines Prallelogramms bzw. des Tisches durch einen Klick der linken Maustaste ausgewählt werden. Idealerweise werden diese in der folgenden Reihenfolge markiert: 
+1.	rechte vordere Ecke
+2.	rechte hintere Ecke
+3.	linke vordere Ecke
+4.	linke hintere Ecke
 
-Anschließend werden anhand dieser Punkte zwei entsprechende Fluchtpunkte und aus diesen wiederum die horizontale Fluchtlinie berechnet. Mit Abschließen dieser Berechnung werden auf der Benutzeroberfläche die entsprechenden vier geraden eingezeichnet - diese stellen die Fluchtlinien dar, von welchen sich immer zwei in jeweils einem Fluchtpunkt schneiden.
+Anschließend werden anhand dieser Punkte zwei entsprechende Fluchtpunkte und aus diesen wiederum die horizontale Fluchtlinie berechnet. Mit Abschließen dieser Berechnung werden auf der Benutzeroberfläche vier geraden eingezeichnet, die durch die markierten Punkte verlaufen bis hin zu den FLuchtpunkten wo sie sich schneiden.
 
-Daraufhin muss der Nutzer zunächst das untere und obere Ende der Flasche kennzeichnen. Dabei wird per Mausklick ein Punkt in der Boden- und ein weiterer Punkt in der Deckelebene gesetzt. Ebenso wird dann auch bei der Tasse verfahren, so dass auch hier zwei Punkte die Höhe der Tasse markieren.
-Die Höhe der Flasche ist mit 26cm gegeben und anhand dieser wird anschließend die Höhe der Tasse mit Hilfe eines neu berechneten Fluchtpunkts "v" ermittelt.
+Daraufhin muss der Nutzer zunächst das untere und obere Ende der Flasche kennzeichnen. Dabei sollte jeweils möglichst die Mitte des Flaschenbodens und -deckels getroffen werden. Ebenso wird danach bei der Tasse verfahren.
+Die Höhe der Flasche ist mit 26cm gegeben. Anhand dieser und mit Hilfe eines neu berechneten Fluchtpunkts "v" wird anschließend die Höhe der Tasse ermittelt.
 
-Nun wird die Größe des Bildes den Fluchtpunkten entsprechend größer gerechnet, so dass diese, wie auch die horizontale Fluchtlinie im Bild angezeigt werden können. Hier wird das ursprüngliche Bild relativ zu den Fluchtpunkten und mit Berücksichtigung der Seitenverhältnisse im neuen Bild platziert.
-
+Nun wird die Größe des Bildes den Fluchtpunkten entsprechend erweitert, sodass diese, sowie die horizontale Fluchtlinie, im Bild angezeigt werden können. Hier wird das ursprüngliche Bild relativ zu den Fluchtpunkten im neuen Bild platziert. Das neue Bild wird abschließend verkleinert, sodass sich die Fenstergröße nicht ändert.
 
 Durch die N-Taste kann zum nächsten Bild navigiert werden. Hier kann nun derselbe Vorgang wie oben beschrieben durchgeführt werden. Dies ist danach noch mit einem weiteren Bild möglich. Durch die unterschiedlichen Blickwinkel kann durch anschließendes Summieren der berechneten Höhe (der Tasse) die durchschnittliche Höhe berechnet werden. 
 
 So soll ein möglichst genaues Ergebnis ermittelt werden. Hier gilt zu beachten, dass die Genauigkeit der Berechnung jedoch von der exakten Positionierung aller, zur Berechnung benötigter, Punkte abhängig ist. Anschließend wird das Programm automatisch beendet.
-Mit der Q-Taste kann das Programm manuell beendet werden.
+Mit der Q-Taste kann das Programm vorzeitig beendet werden.
 
 
 # Schlüssel zu den Indizes des Arrays currentImgPts
